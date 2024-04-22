@@ -19,3 +19,27 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+@layer components {
+  .btn {
+    @apply rounded text-center transition focus-visible:ring-2 ring-offset-2 ring-gray-200 px-5 py-2.5 bg-black text-white hover:bg-gray-800 border-2 border-transparent flex gap-1 items-center justify-center duration-200;
+  }
+
+  .form-field {
+    @apply flex flex-col mb-4;
+  }
+
+  .input-field { 
+    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5;
+  }
+
+  .label-field {
+    @apply block mb-1.5 pl-0.5 text-sm font-medium text-gray-900;
+  }
+}
+
+@layer base {
+  h1 {
+    @apply text-3xl font-bold text-gray-800 mb-4;
+  }
+}
