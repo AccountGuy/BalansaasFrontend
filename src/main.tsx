@@ -4,7 +4,6 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 // Import the generated route tree of TanStack router
 import { routeTree } from "./routeTree.gen";
 
-import "./App.css";
 import "./index.css";
 
 // Create a new router instance
