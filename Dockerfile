@@ -38,6 +38,6 @@ COPY --chown=node:node . ./BalansaasFrontend
 
 USER node
 
-EXPOSE 8000
+EXPOSE 5173
 
 CMD [ "npm", "run", "dev", "--host" ]
