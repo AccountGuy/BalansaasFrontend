@@ -1,8 +1,14 @@
 # BalanSAAS App
 
-### Commandd
+### Commands
 
 Use `pnpm` for a fast bundling the app
+
+| Command        | Description                |
+| -------------- | -------------------------- |
+| `pnpm run dev` | Run the development server |
+
+If you want to add a new command you can do it in the `package.json` file in the `scripts` key
 
 ### Other considerations about this template
 
