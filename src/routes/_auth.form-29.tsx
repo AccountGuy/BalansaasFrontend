@@ -1,7 +1,7 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
-import Form29 from "../components/Form29";
+import { createFileRoute } from "@tanstack/react-router";
+import Form29 from "../custom_components/Form29";
 
-export const Route = createLazyFileRoute("/form-29")({
+export const Route = createFileRoute("/_auth/form-29")({
   component: About,
 });
 
