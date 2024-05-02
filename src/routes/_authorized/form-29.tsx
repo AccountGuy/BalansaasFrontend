@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import Form29 from "../custom_components/Form29";
+import Form29 from "../../custom_components/Form29";
 
-export const Route = createFileRoute("/_auth/form-29")({
+export const Route = createFileRoute("/_authorized/form-29")({
   component: About,
 });
 
