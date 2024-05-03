@@ -8,7 +8,10 @@ export const Route = createFileRoute("/_authorized")({
 
 function AuthLayout() {
   const navigate = useNavigate();
-  useLoginHook(() => navigate({ to: "/login" }));
+  useLoginHook({
+    redirectCallback: () => navigate({ to: "/login" }),
+    type: "failure",
+  });
 
   return (
     <>
