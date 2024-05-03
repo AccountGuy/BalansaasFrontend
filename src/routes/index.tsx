@@ -1,16 +1,18 @@
-import { useLoginStore } from "@/stores/authStore";
-import { useNavigate, useRouter } from "@tanstack/react-router";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useLoginHook } from "@/hooks/loginHook";
+import Login from "@/custom_components/Login";
 
 export const Route = createFileRoute("/")({
-  component: () => {
-    const { token } = useLoginStore();
-    const router = useRouter();
-    const navigate = useNavigate();
-    if (!token) {
-      router.invalidate().finally(() => navigate({ to: "/login" }));
-    } else {
-      navigate({ to: "/landing" });
-    }
-  },
+  component: IndexRoute,
 });
+
+function IndexRoute() {
+  const navigate = useNavigate();
+  useLoginHook({
+    redirectCallback: () => navigate({ to: "/landing" }),
+    type: "success",
+    withToast: false,
+  });
+
+  return <Login />;
+}
