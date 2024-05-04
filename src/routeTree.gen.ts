@@ -12,16 +12,11 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
-import { Route as AuthImport } from './routes/_auth'
+import { Route as AuthorizedImport } from './routes/_authorized'
 import { Route as IndexImport } from './routes/index'
-import { Route as AuthLandingImport } from './routes/_auth.landing'
-import { Route as AuthForm29Import } from './routes/_auth.form-29'
-
-// Create Virtual Routes
-
-const Form29LazyImport = createFileRoute('/form-29')()
-const AccountsLazyImport = createFileRoute('/accounts')()
-const AuthAccountsLazyImport = createFileRoute('/_auth/accounts')()
+import { Route as AuthorizedLandingImport } from './routes/_authorized/landing'
+import { Route as AuthorizedForm29Import } from './routes/_authorized/form-29'
+import { Route as AuthorizedAccountsImport } from './routes/_authorized/accounts'
 
 // Create/Update Routes
 
@@ -32,16 +27,6 @@ const LoginRoute = LoginImport.update({
 
 const AuthorizedRoute = AuthorizedImport.update({
   id: '/_authorized',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const LoginRoute = LoginImport.update({
-  path: '/login',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AuthRoute = AuthImport.update({
-  id: '/_auth',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -65,37 +50,12 @@ const AuthorizedAccountsRoute = AuthorizedAccountsImport.update({
   getParentRoute: () => AuthorizedRoute,
 } as any)
 
-const AuthAccountsLazyRoute = AuthAccountsLazyImport.update({
-  path: '/accounts',
-  getParentRoute: () => AuthRoute,
-} as any).lazy(() =>
-  import('./routes/_auth.accounts.lazy').then((d) => d.Route),
-)
-
-const AuthLandingRoute = AuthLandingImport.update({
-  path: '/landing',
-  getParentRoute: () => AuthRoute,
-} as any)
-
-const AuthForm29Route = AuthForm29Import.update({
-  path: '/form-29',
-  getParentRoute: () => AuthRoute,
-} as any)
-
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
       preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/_auth': {
-      preLoaderRoute: typeof AuthImport
-      parentRoute: typeof rootRoute
-    }
-    '/login': {
-      preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
     '/_authorized': {
@@ -106,17 +66,17 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
-    '/_auth/form-29': {
-      preLoaderRoute: typeof AuthForm29Import
-      parentRoute: typeof AuthImport
+    '/_authorized/accounts': {
+      preLoaderRoute: typeof AuthorizedAccountsImport
+      parentRoute: typeof AuthorizedImport
     }
-    '/_auth/landing': {
-      preLoaderRoute: typeof AuthLandingImport
-      parentRoute: typeof AuthImport
+    '/_authorized/form-29': {
+      preLoaderRoute: typeof AuthorizedForm29Import
+      parentRoute: typeof AuthorizedImport
     }
-    '/_auth/accounts': {
-      preLoaderRoute: typeof AuthAccountsLazyImport
-      parentRoute: typeof AuthImport
+    '/_authorized/landing': {
+      preLoaderRoute: typeof AuthorizedLandingImport
+      parentRoute: typeof AuthorizedImport
     }
   }
 }
@@ -125,14 +85,12 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
-  AuthRoute.addChildren([
-    AuthForm29Route,
-    AuthLandingRoute,
-    AuthAccountsLazyRoute,
+  AuthorizedRoute.addChildren([
+    AuthorizedAccountsRoute,
+    AuthorizedForm29Route,
+    AuthorizedLandingRoute,
   ]),
   LoginRoute,
-  AccountsLazyRoute,
-  Form29LazyRoute,
 ])
 
 /* prettier-ignore-end */
