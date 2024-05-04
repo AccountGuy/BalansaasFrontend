@@ -10,7 +10,7 @@ export default ({ mode }: any) => {
   process.env = {...process.env, ...loadEnv(mode, process.cwd())};
 
   return defineConfig({
-        server: {
+    server: {
       port: Number(process.env.VITE_PORT) || 3001
     },
     plugins: [

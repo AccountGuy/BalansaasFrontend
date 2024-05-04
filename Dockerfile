@@ -28,11 +28,13 @@ RUN mkdir -p /BalansaasFrontend/node_modules && chown -R node:node /BalansaasFro
 
 WORKDIR /BalansaasFrontend
 
-RUN npm install -g npm@9.6.7
+ENV PNPM_HOME="/root/.local/share/pnpm"
+ENV PATH="${PATH}:${PNPM_HOME}"
+RUN npm install --global pnpm
 
 COPY --chown=node:node package.json package-lock.json ./
 
-RUN npm install --legacy-peer-deps
+RUN pnpm install
 
 COPY --chown=node:node . ./BalansaasFrontend
 
@@ -40,4 +42,4 @@ USER node
 
 EXPOSE 5173
 
-CMD [ "npm", "run", "dev", "--host" ]
+CMD [ "pnpm", "run", "dev", "--host" ]
