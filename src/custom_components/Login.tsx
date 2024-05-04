@@ -3,11 +3,14 @@ import { useLoginStore } from "../stores/authStore";
 import Logo from "./Logo";
 import { useMutation } from "@tanstack/react-query";
 import { sessionLoginHandler } from "../handlers/sessionHandlers";
-import { redirect } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
+import { Loader } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 
 const Login = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
   const { setUserData } = useLoginStore();
   const { mutateAsync, isPending } = useMutation({
     mutationFn: sessionLoginHandler,
@@ -23,7 +26,18 @@ const Login = () => {
     const loginResponse = await mutateAsync(userPayload);
     if (loginResponse) {
       setUserData(loginResponse);
-      redirect({ to: "/" });
+      navigate({ to: "/landing" });
+      toast({
+        variant: "success",
+        title: "Ya te encuentras logeado!",
+        description: 'Si quieres deslogearte clickea en "Cerrar sesión"',
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Email o contraseña equivocada",
+        description: "Intenta nuevamente para ingresar",
+      });
     }
   };
 
@@ -57,7 +71,8 @@ const Login = () => {
             </section>
             <section className="form-field">
               <button className="btn w-full" disabled={isPending}>
-                {isPending ? "Cargando..." : "Ingresar"}
+                {isPending ? "Cargando " : "Ingresar"}
+                {isPending ? <Loader className="animate-spin" /> : ""}
               </button>
             </section>
           </article>
