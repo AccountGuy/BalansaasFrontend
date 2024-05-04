@@ -1,15 +1,16 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { AuthProps } from "@/stores/authStore";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import Sidebar from "../components/Sidebar";
 
-export const Route = createRootRoute({
-  component: () => (
+export const Route = createRootRouteWithContext<AuthProps>()({
+  component: RootHandler,
+});
+
+function RootHandler() {
+  return (
     <div className="min-w-full min-h-svh relative flex">
-      <Sidebar />
-      <main className="flex-1 px-6 py-4">
-        <Outlet />
-      </main>
+      <Outlet />
       <TanStackRouterDevtools position="bottom-right" />
     </div>
-  ),
-});
+  );
+}
