@@ -17,6 +17,7 @@ import { Route as rootRoute } from './routes/__root'
 // Create Virtual Routes
 
 const Form29LazyImport = createFileRoute('/form-29')()
+const AccountsLazyImport = createFileRoute('/accounts')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
@@ -25,6 +26,11 @@ const Form29LazyRoute = Form29LazyImport.update({
   path: '/form-29',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/form-29.lazy').then((d) => d.Route))
+
+const AccountsLazyRoute = AccountsLazyImport.update({
+  path: '/accounts',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/accounts.lazy').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
@@ -39,6 +45,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/accounts': {
+      preLoaderRoute: typeof AccountsLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/form-29': {
       preLoaderRoute: typeof Form29LazyImport
       parentRoute: typeof rootRoute
@@ -50,6 +60,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
+  AccountsLazyRoute,
   Form29LazyRoute,
 ])
 
