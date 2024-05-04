@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import type { UserData } from '../schemas'
 
-interface AuthProps extends UserData {
+export interface AuthProps extends UserData {
   setUserData: (userData: UserData) => void
 }
 
