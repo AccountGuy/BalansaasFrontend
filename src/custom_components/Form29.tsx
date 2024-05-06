@@ -1,7 +1,13 @@
+import { excelGeneration } from "@/services/generate_excel";
 import { useState } from "react";
 
 const Form29 = () => {
   const [userSII, setUserSII] = useState("");
+
+  const handleDownload = async (e: any) => {
+    e.preventDefault();
+    excelGeneration();
+  };
   return (
     <form>
       <section className="form-field">
@@ -41,7 +47,9 @@ const Form29 = () => {
         />
       </section>
       <section>
-        <button className="btn w-full">Generar</button>
+        <button className="btn w-full" onClick={(e) => handleDownload(e)}>
+          Generar
+        </button>
       </section>
     </form>
   );
