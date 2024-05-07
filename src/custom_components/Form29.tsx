@@ -2,8 +2,6 @@ import { excelGeneration } from "@/services/generate_excel";
 import { useState } from "react";
 
 const Form29 = () => {
-  const [userSII, setUserSII] = useState("");
-
   const handleDownload = async (e: any) => {
     e.preventDefault();
     excelGeneration();
