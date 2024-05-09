@@ -18,7 +18,7 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="flex flex-col min-w-56 min-h-full bg-gradient-to-br from-slate-100 to-slate-300 py-2 shadow-2xl rounded-e-2xl">
+    <aside className="balansaas-gradient flex flex-col min-w-56 min-h-full py-2 shadow-2xl rounded-e-2xl">
       <article className="flex-1">
         <section className="grid place-items-center">
           <Logo />
