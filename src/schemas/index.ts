@@ -27,3 +27,8 @@ export interface Account {
   taxServicePassword: string
   createdAt: string
 }
+
+export interface AccountSelect {
+  id: number
+  name: string
+}

@@ -1,21 +1,22 @@
 import ExcelJS from 'exceljs'
 import type { Worksheet } from 'exceljs'
-import { jsonToTableData, exampleData, obtainFiscalCredit, obtainFiscalDebit, obtainExportation, obtainExemptExpenses, obtainTransitoryFees, obtainWithholdingFees, obtainUniqueFee } from './sii_formulas';
+import { jsonToTableData, obtainFiscalCredit, obtainFiscalDebit, obtainExportation, obtainExemptExpenses, obtainTransitoryFees, obtainWithholdingFees, obtainUniqueFee } from './sii_formulas';
+import type { SiiF29YearData } from '@/schemas';
 
-export async function excelGeneration() {
+export async function excelGeneration(data: SiiF29YearData[]) {
   try {
     // Path to the Excel file in the public directory
     const filePath = '/master_template.xlsx';
     const response = await fetch(filePath);
     const arrayBuffer = await response.arrayBuffer();
     const blob = new Blob([arrayBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    await generateExcel(blob);
+    await generateExcel(data, blob);
   } catch (error) {
     console.error('Error:', error);
   }
 }
 
-async function generateExcel(blob: any) {
+async function generateExcel(data: SiiF29YearData[], blob: any) {
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.load(blob);
 
@@ -24,21 +25,21 @@ async function generateExcel(blob: any) {
 
   // Add the support information
   worksheetSupport.addRow(['año', 'mes', 'code', 'value'])
-  worksheetSupport.addRows(jsonToTableData(exampleData))
+  worksheetSupport.addRows(jsonToTableData(data))
 
   // Fill the cells with the aggregate data
   const dataSheetName = 'DATOS'
   const worksheetData = workbook.getWorksheet(dataSheetName);
 
   if (worksheetData !== undefined) {
-    saveFiscalDebt(worksheetData)
-    savePPM(worksheetData)
-    saveTransitoryFees(worksheetData)
-    saveWithholdingFees(worksheetData)
+    saveFiscalDebt(data, worksheetData)
+    savePPM(data, worksheetData)
+    saveTransitoryFees(data, worksheetData)
+    saveWithholdingFees(data, worksheetData)
     // Next Table
-    saveFiscalCredit(worksheetData)
-    saveExemptExpenses(worksheetData)
-    saveUniqueFee(worksheetData)
+    saveFiscalCredit(data, worksheetData)
+    saveExemptExpenses(data, worksheetData)
+    saveUniqueFee(data, worksheetData)
   }
 
   // Save the workbook
@@ -51,69 +52,69 @@ async function generateExcel(blob: any) {
   a.click();
 }
 
-function saveFiscalDebt(worksheet: Worksheet) {
+function saveFiscalDebt(data: SiiF29YearData[], worksheet: Worksheet) {
   const offsetRow = 14
   const offsetColumn = 5
-  exampleData.map(monthData => {
+  data.map(monthData => {
     const cellData = obtainFiscalDebit(monthData.information)
     worksheet.getCell(offsetRow + monthData.month, offsetColumn).value = cellData
   })
 }
 
-function savePPM(worksheet: Worksheet) {
+function savePPM(data: SiiF29YearData[], worksheet: Worksheet) {
   // Pagos provisionales mensuales (62)
   const offsetRow = 14
   const offsetColumn = 6
-  exampleData.map(monthData => {
+  data.map(monthData => {
     const cellData = obtainExemptExpenses(monthData.information)
     worksheet.getCell(offsetRow + monthData.month, offsetColumn).value = cellData
   })
 }
 
-function saveWithholdingFees(worksheet: Worksheet) {
+function saveWithholdingFees(data: SiiF29YearData[], worksheet: Worksheet) {
   // Responds 'Retencion de honorarios'
   const offsetRow = 14
   const offsetColumn = 7
-  exampleData.map(monthData => {
+  data.map(monthData => {
     const cellData = obtainWithholdingFees(monthData.information)
     worksheet.getCell(offsetRow + monthData.month, offsetColumn).value = cellData
   })
 }
 
-function saveTransitoryFees(worksheet: Worksheet) {
+function saveTransitoryFees(data: SiiF29YearData[], worksheet: Worksheet) {
   // Respond for Impuestos transitorios [153 + 49]
   const offsetRow = 14
   const offsetColumn = 8
-  exampleData.map(monthData => {
+  data.map(monthData => {
     const cellData = obtainTransitoryFees(monthData.information)
     worksheet.getCell(offsetRow + monthData.month, offsetColumn).value = cellData
   })
 }
 
-function saveFiscalCredit(worksheet: Worksheet) {
+function saveFiscalCredit(data: SiiF29YearData[], worksheet: Worksheet) {
   const offsetRow = 35
   const offsetColumn = 5
-  exampleData.map(monthData => {
+  data.map(monthData => {
     const cellData = obtainFiscalCredit(monthData.information) + obtainExportation(monthData.information)
     worksheet.getCell(offsetRow + monthData.month, offsetColumn).value = cellData
   })
 }
 
-function saveExemptExpenses(worksheet: Worksheet) {
+function saveExemptExpenses(data: SiiF29YearData[], worksheet: Worksheet) {
   // Respond for 'Gastos exentos'
   const offsetRow = 35
   const offsetColumn = 6
-  exampleData.map(monthData => {
+  data.map(monthData => {
     const cellData = obtainExemptExpenses(monthData.information)
     worksheet.getCell(offsetRow + monthData.month, offsetColumn).value = cellData
   })
 }
 
-function saveUniqueFee(worksheet: Worksheet) {
+function saveUniqueFee(data: SiiF29YearData[], worksheet: Worksheet) {
   // Respond for 'Impuesto único'
   const offsetRow = 35
   const offsetColumn = 9
-  exampleData.map(monthData => {
+  data.map(monthData => {
     const cellData = obtainUniqueFee(monthData.information)
     worksheet.getCell(offsetRow + monthData.month, offsetColumn).value = cellData
   })
