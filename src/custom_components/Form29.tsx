@@ -1,55 +1,91 @@
+import { FormEvent, useState } from "react";
 import { excelGeneration } from "@/services/generate_excel";
-import { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import type { AccountSelect } from "@/schemas";
+import { getDateRanges } from "@/lib/date_utils";
+import { postForSiiFormRecords } from "@/handlers/siiFormRecordHandler";
+import { useMutation } from "@tanstack/react-query";
 
-const Form29 = () => {
-  const handleDownload = async (e: any) => {
+interface Form29Props {
+  accounts: AccountSelect[];
+}
+
+const years = getDateRanges().reverse();
+
+const Form29 = ({ accounts }: Form29Props) => {
+  const [selectedAccount, setSelectedAccount] = useState<number>();
+  const [selectedYear, setSelectedYear] = useState<number>();
+  // const { register, handleSubmit } = useForm<SiiFormRecordProps>();
+  const { mutateAsync, isPending, isError } = useMutation({
+    mutationFn: postForSiiFormRecords,
+  });
+
+  const handleSubmitAction = async (e: FormEvent) => {
     e.preventDefault();
-    excelGeneration();
+    const f29Data = await mutateAsync({
+      account_id: selectedAccount as number,
+      year: selectedYear as number,
+    });
+    if (!isError && !isPending) {
+      await excelGeneration(f29Data);
+    }
   };
+
   return (
-    <form>
-      <section className="form-field">
-        <label className="label-field">RUT para SII</label>
-        <input
-          className="input-field"
-          placeholder="18321543-2"
-          name="SII User"
-          type="text"
-        />
-      </section>
-      <section className="form-field">
-        <label className="label-field">Clave para SII</label>
-        <input
-          className="input-field"
-          placeholder=""
-          name="password"
-          type="password"
-        />
-      </section>
-      <section className="form-field">
-        <label className="label-field">Año de formulario</label>
-        <input
-          className="input-field"
-          placeholder="2024"
-          name="Año"
-          type="date"
-        />
-      </section>
-      <section className="form-field">
-        <label className="label-field">Mes de formulario</label>
-        <input
-          className="input-field"
-          placeholder="Marzo"
-          name="Mes"
-          type="date"
-        />
-      </section>
-      <section>
-        <button className="btn w-full" onClick={(e) => handleDownload(e)}>
-          Generar
-        </button>
-      </section>
-    </form>
+    <article className="min-w-80 max-w-96">
+      <form onSubmit={handleSubmitAction}>
+        <section className="form-field">
+          <label className="label-field">Selecciona la cuenta</label>
+          <Select
+            onValueChange={(account) => setSelectedAccount(Number(account))}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Selecciona la cuenta" />
+            </SelectTrigger>
+            <SelectContent>
+              {accounts.map(({ id, name }) => (
+                <SelectItem key={id.toString()} value={id.toString()}>
+                  {name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </section>
+        <section className="form-field">
+          <label className="label-field">Año de formulario</label>
+          <Select onValueChange={(year) => setSelectedYear(Number(year))}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Selecciona el año" />
+            </SelectTrigger>
+            <SelectContent>
+              {years.map((year) => (
+                <SelectItem key={year.toString()} value={year.toString()}>
+                  {year}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </section>
+        <section className="flex flex-col gap-2">
+          <div>
+            <button className="btn w-full" disabled={isPending}>
+              Generar Excel SII
+            </button>
+          </div>
+          <div>
+            <button className="btn w-full disabled:bg-red-300" disabled>
+              Generar PDFs (Siguiente version)
+            </button>
+          </div>
+        </section>
+      </form>
+    </article>
   );
 };
 
