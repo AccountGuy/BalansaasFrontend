@@ -19,3 +19,11 @@ export interface DataSheetRowDataProps {
   code: number
   value: number
 }
+
+export interface Account {
+  id: number
+  name: string
+  taxServiceUser: string
+  taxServicePassword: string
+  createdAt: string
+}
