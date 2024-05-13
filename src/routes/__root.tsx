@@ -1,20 +1,16 @@
-import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import { AuthProps } from "@/stores/authStore";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
-export const Route = createRootRoute({
-  component: () => (
-    <>
-      <div className="p-2 flex gap-2">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
-        </Link>{" "}
-        <Link to="/about" className="[&.active]:font-bold">
-          About
-        </Link>
-      </div>
-      <hr />
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
+export const Route = createRootRouteWithContext<AuthProps>()({
+  component: RootHandler,
 });
+
+function RootHandler() {
+  return (
+    <div className="min-w-full min-h-svh relative flex">
+      <Outlet />
+      <TanStackRouterDevtools position="bottom-right" />
+    </div>
+  );
+}

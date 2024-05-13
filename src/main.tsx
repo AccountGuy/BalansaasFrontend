@@ -1,15 +1,24 @@
-import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // Import the generated route tree of TanStack router
 import { routeTree } from "./routeTree.gen";
 
-import "./App.css";
 import "./index.css";
+import { Toaster } from "./components/ui/toaster";
+import { useLoginStore } from "./stores/authStore";
 
-// Create a new router instance
-const router = createRouter({ routeTree });
-
+const queryClient = new QueryClient();
+const router = createRouter({
+  routeTree,
+  context: {
+    token: null,
+    setUserData: () => {},
+    email: null,
+    name: null,
+  },
+  defaultPreload: "intent",
+});
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
   interface Register {
@@ -17,13 +26,21 @@ declare module "@tanstack/react-router" {
   }
 }
 
+const App = () => {
+  const useAuth = useLoginStore();
+  return <RouterProvider router={router} context={{ ...useAuth }} />;
+};
+
 // Render the app
 const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
-    <StrictMode>
-      <RouterProvider router={router} />
-    </StrictMode>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+      <Toaster />
+    </>
   );
 }
