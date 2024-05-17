@@ -1,5 +1,7 @@
+import type { ReactElement } from 'react'
+
 interface SidebarLinkProps {
-  children: string;
+  children: string | ReactElement;
   isActive: boolean;
 }
 
