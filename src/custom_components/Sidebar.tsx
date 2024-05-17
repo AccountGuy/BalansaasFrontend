@@ -1,7 +1,7 @@
 import { Link, useNavigate, useRouterState } from '@tanstack/react-router'
 import Logo from './Logo'
 import SidebarLink from './SidebarLink'
-import { Home, BookUser, LogOut } from 'lucide-react'
+import { Home, BookUser, LogOut, Cog } from 'lucide-react'
 import F29Book from '@/components/icons/F29Book'
 import { localStorageKey } from '@/stores/authStore'
 import { toast } from '@/components/ui/use-toast'
@@ -20,46 +20,31 @@ const Sidebar = () => {
   }
 
   return (
-    <aside className="balansaas-gradient flex min-h-full min-w-64 flex-col rounded-e-2xl py-2 shadow-2xl">
+    <aside className="balansaas-gradient flex min-h-full min-w-64 flex-col rounded-e-2xl pb-8 pt-2 shadow-2xl">
       <article className="flex-1">
         <section className="grid place-items-center">
           <Logo />
         </section>
         <section>
           <Link to="/landing">
-            <SidebarLink isActive={pathname === '/landing'}>
-              <div className="flex">
-                <Home />
-                <span className="ml-2">Inicio</span>
-              </div>
-            </SidebarLink>
+            <SidebarLink isActive={pathname === '/landing'} label="Inicio" icon={<Home />} />
           </Link>
           <Link to="/accounts">
-            <SidebarLink isActive={pathname === '/accounts'}>
-              <div className="flex">
-                <BookUser />
-                <span className="ml-2">Cuentas</span>
-              </div>
-            </SidebarLink>
+            <SidebarLink isActive={pathname === '/accounts'} label="Cuentas" icon={<BookUser />} />
           </Link>
           <Link to="/form-29">
-            <SidebarLink isActive={pathname === '/form-29'}>
-              <div className="flex">
-                <F29Book />
-                <span className="ml-2">Formulario 29</span>
-              </div>
-            </SidebarLink>
+            <SidebarLink
+              isActive={pathname === '/form-29'}
+              label="Formulario F29"
+              icon={<F29Book />}
+            />
           </Link>
         </section>
       </article>
       <article>
+        <SidebarLink isActive={false} label="Configuración" icon={<Cog />} />
         <section onClick={handleLogout} className="cursor-pointer">
-          <SidebarLink isActive={false}>
-            <div className="flex">
-              <LogOut />
-              <span className="ml-2">Cerrar Sesión</span>
-            </div>
-          </SidebarLink>
+          <SidebarLink isActive={false} label="Cerrar Sesión" icon={<LogOut />} />
         </section>
       </article>
     </aside>
