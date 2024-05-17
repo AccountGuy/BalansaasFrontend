@@ -1,17 +1,18 @@
-import Sidebar from "@/custom_components/Sidebar";
-import { useLoginHook } from "@/hooks/loginHook";
-import { Outlet, createFileRoute, useNavigate } from "@tanstack/react-router";
+import Sidebar from '@/custom_components/Sidebar'
+import { useLoginHook } from '@/hooks/loginHook'
+import { Outlet, createFileRoute, useNavigate } from '@tanstack/react-router'
 
-export const Route = createFileRoute("/_authorized")({
+export const Route = createFileRoute('/_authorized')({
   component: AuthLayout,
-});
+})
 
 function AuthLayout() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
   useLoginHook({
-    redirectCallback: () => navigate({ to: "/login" }),
-    type: "failure",
-  });
+    redirectCallback: () => navigate({ to: '/login' }),
+    type: 'failure',
+  })
 
   return (
     <>
@@ -20,5 +21,5 @@ function AuthLayout() {
         <Outlet />
       </main>
     </>
-  );
+  )
 }
