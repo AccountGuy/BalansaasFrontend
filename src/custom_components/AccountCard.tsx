@@ -1,12 +1,59 @@
+import { useState } from 'react'
 import { partialHide } from '@/lib/string_utils'
 import { EllipsisVertical, SquarePen, Trash2 } from 'lucide-react'
 import type { Account } from '@/schemas'
 import RelativeTime from './RelativeTime'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { updateAccount } from '@/handlers/accountsHandler'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { AccountFormProps } from '@/schemas/forms'
+import { toast } from '@/components/ui/use-toast'
 
-const AccountCard = ({ name, taxServicePassword, taxServiceUser, createdAt }: Account) => {
+const AccountCard = ({ id, name, taxServicePassword, taxServiceUser, createdAt }: Account) => {
+  const queryClient = useQueryClient()
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const { register, handleSubmit } = useForm<AccountFormProps>({
+    defaultValues: {
+      name,
+      tax_service_user: taxServicePassword,
+      tax_service_password: taxServicePassword,
+    },
+  })
+  const { mutateAsync, isPending, isError } = useMutation({
+    mutationFn: updateAccount,
+    onSuccess: async () =>
+      await queryClient.invalidateQueries({
+        queryKey: ['accounts'],
+        refetchType: 'all',
+      }),
+  })
+  const handleUpdateAccount: SubmitHandler<AccountFormProps> = async (data) => {
+    const accountResponse = await mutateAsync({ ...data, id: id.toString() })
+    if (isError) {
+      toast({
+        variant: 'destructive',
+        title: `Problem with the creation`,
+      })
+    } else {
+      toast({
+        variant: 'success',
+        title: `Cuenta "${accountResponse.name}" creada!`,
+      })
+      setIsModalOpen(false)
+    }
+  }
+
   return (
     <section className="balansaas-gradient relative min-h-28 min-w-80 flex-1 rounded-md p-5 shadow-md">
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}></Dialog>
       <Popover>
         <PopoverTrigger asChild>
           <div className="absolute right-5 top-5 rounded-sm text-main-900 hover:bg-main-200/50">
@@ -14,9 +61,38 @@ const AccountCard = ({ name, taxServicePassword, taxServiceUser, createdAt }: Ac
           </div>
         </PopoverTrigger>
         <PopoverContent align="end" className="w-36 space-y-1 border py-1">
-          <div className="flex justify-between px-4 py-1.5 text-gray-700 hover:bg-gray-100">
-            Editar <SquarePen />
-          </div>
+          <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+            <DialogTrigger className="w-full">
+              <button className="flex w-full justify-between bg-white px-4 py-1.5 text-gray-700 hover:bg-gray-100">
+                Editar
+                <SquarePen />
+              </button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Añade una cuenta SII</DialogTitle>
+              </DialogHeader>
+              <section className="mt-3">
+                <form onSubmit={handleSubmit(handleUpdateAccount)}>
+                  <div className="form-field">
+                    <label className="label-field">Nombre descriptivo</label>
+                    <input {...register('name')} className="input-field" />
+                  </div>
+                  <div className="form-field">
+                    <label className="label-field">Usuario SII</label>
+                    <input {...register('tax_service_user')} className="input-field" />
+                  </div>
+                  <div className="form-field">
+                    <label className="label-field">Contraseña SII</label>
+                    <input {...register('tax_service_password')} className="input-field" />
+                  </div>
+                  <button type="submit" className="btn w-full font-semibold" disabled={isPending}>
+                    Actualizar Cuenta
+                  </button>
+                </form>
+              </section>
+            </DialogContent>
+          </Dialog>
           <div className="my-4 h-[1px] w-full shrink-0 bg-border"></div>
           <div className="flex justify-between px-4 py-1.5 text-red-700 hover:bg-red-50">
             Eliminar <Trash2 />
