@@ -20,7 +20,7 @@ const Sidebar = () => {
   }
 
   return (
-    <aside className="balansaas-gradient flex min-h-full min-w-64 flex-col rounded-e-2xl pb-8 pt-2 shadow-2xl">
+    <aside className="balansaas-gradient flex min-h-full min-w-64 flex-col rounded-e-2xl py-4 shadow-2xl">
       <article className="flex-1">
         <section className="grid place-items-center">
           <Logo />
@@ -42,7 +42,9 @@ const Sidebar = () => {
         </section>
       </article>
       <article>
-        <SidebarLink isActive={false} label="Configuración" icon={<Cog />} />
+        <Link to="/settings">
+          <SidebarLink isActive={false} label="Configuración" icon={<Cog />} />
+        </Link>
         <section onClick={handleLogout} className="cursor-pointer">
           <SidebarLink isActive={false} label="Cerrar Sesión" icon={<LogOut />} />
         </section>
