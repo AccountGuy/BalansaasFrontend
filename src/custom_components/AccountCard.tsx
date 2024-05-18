@@ -81,7 +81,7 @@ const AccountCard = ({ id, name, taxServicePassword, taxServiceUser, createdAt }
     }
   }
   return (
-    <section className="balansaas-gradient relative min-h-28 min-w-80 flex-1 rounded-md p-5 shadow-md">
+    <section className="balansaas-gradient relative min-h-28 min-w-80 max-w-96 flex-1 rounded-md p-5 shadow-md">
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}></Dialog>
       <Popover>
         <PopoverTrigger asChild>
