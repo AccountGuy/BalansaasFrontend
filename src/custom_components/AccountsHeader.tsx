@@ -46,7 +46,7 @@ const AccountsHeader = () => {
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <header className="title-spacing flex items-end">
         <div className="flex-1">
-          <h1>Cuentas SII Registradas</h1>
+          <h1>Cuentas SII</h1>
         </div>
         <div>
           <DialogTrigger className="btn-option font-semibold">
