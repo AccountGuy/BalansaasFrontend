@@ -14,9 +14,9 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as AuthorizedImport } from './routes/_authorized'
 import { Route as IndexImport } from './routes/index'
+import { Route as AuthorizedSettingsImport } from './routes/_authorized/settings'
 import { Route as AuthorizedLandingImport } from './routes/_authorized/landing'
 import { Route as AuthorizedForm29Import } from './routes/_authorized/form-29'
-import { Route as AuthorizedConfigurationsImport } from './routes/_authorized/configurations'
 import { Route as AuthorizedAccountsImport } from './routes/_authorized/accounts'
 
 // Create/Update Routes
@@ -36,6 +36,11 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthorizedSettingsRoute = AuthorizedSettingsImport.update({
+  path: '/settings',
+  getParentRoute: () => AuthorizedRoute,
+} as any)
+
 const AuthorizedLandingRoute = AuthorizedLandingImport.update({
   path: '/landing',
   getParentRoute: () => AuthorizedRoute,
@@ -43,11 +48,6 @@ const AuthorizedLandingRoute = AuthorizedLandingImport.update({
 
 const AuthorizedForm29Route = AuthorizedForm29Import.update({
   path: '/form-29',
-  getParentRoute: () => AuthorizedRoute,
-} as any)
-
-const AuthorizedConfigurationsRoute = AuthorizedConfigurationsImport.update({
-  path: '/configurations',
   getParentRoute: () => AuthorizedRoute,
 } as any)
 
@@ -76,16 +76,16 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthorizedAccountsImport
       parentRoute: typeof AuthorizedImport
     }
-    '/_authorized/configurations': {
-      preLoaderRoute: typeof AuthorizedConfigurationsImport
-      parentRoute: typeof AuthorizedImport
-    }
     '/_authorized/form-29': {
       preLoaderRoute: typeof AuthorizedForm29Import
       parentRoute: typeof AuthorizedImport
     }
     '/_authorized/landing': {
       preLoaderRoute: typeof AuthorizedLandingImport
+      parentRoute: typeof AuthorizedImport
+    }
+    '/_authorized/settings': {
+      preLoaderRoute: typeof AuthorizedSettingsImport
       parentRoute: typeof AuthorizedImport
     }
   }
@@ -97,9 +97,9 @@ export const routeTree = rootRoute.addChildren([
   IndexRoute,
   AuthorizedRoute.addChildren([
     AuthorizedAccountsRoute,
-    AuthorizedConfigurationsRoute,
     AuthorizedForm29Route,
     AuthorizedLandingRoute,
+    AuthorizedSettingsRoute,
   ]),
   LoginRoute,
 ])
