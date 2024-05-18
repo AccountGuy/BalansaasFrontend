@@ -50,7 +50,11 @@ html,
 
 @layer base {
   h1 {
-    @apply text-3xl font-bold text-gray-800;
+    @apply text-3xl font-bold bg-gradient-to-r from-main-950 to-main-700 inline-block text-transparent bg-clip-text;
+  }
+
+  button {
+    @apply focus-visible:outline-none
   }
 
   .title-spacing {
