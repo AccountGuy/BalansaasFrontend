@@ -20,3 +20,13 @@ export const createAccount = async (accountData: AccountFormProps): Promise<Acco
   ) as { data: Account };
   return accountsData.data
 }
+
+export const updateAccount = async (accountData: AccountFormProps & {id: string}): Promise<Account> => {
+  const { id, ...accountInfo } = accountData
+  const accountsData = await apiRequest.patch(
+    `api/v1/accounts/${accountData.id}`,
+    { account: accountInfo },
+    { headers: obtainAuthorization() }
+  ) as { data: Account };
+  return accountsData.data
+}
