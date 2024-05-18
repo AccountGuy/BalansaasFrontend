@@ -5,7 +5,7 @@ import type { Account } from '@/schemas'
 import RelativeTime from './RelativeTime'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { updateAccount } from '@/handlers/accountsHandler'
+import { updateAccount, deleteAccount } from '@/handlers/accountsHandler'
 import {
   Dialog,
   DialogContent,
@@ -27,7 +27,11 @@ const AccountCard = ({ id, name, taxServicePassword, taxServiceUser, createdAt }
       tax_service_password: taxServicePassword,
     },
   })
-  const { mutateAsync, isPending, isError } = useMutation({
+  const {
+    mutateAsync: mutateUpdateAccount,
+    isPending,
+    isError,
+  } = useMutation({
     mutationFn: updateAccount,
     onSuccess: async () =>
       await queryClient.invalidateQueries({
@@ -35,8 +39,18 @@ const AccountCard = ({ id, name, taxServicePassword, taxServiceUser, createdAt }
         refetchType: 'all',
       }),
   })
+
+  const { mutateAsync: mutateDeleteAccount } = useMutation({
+    mutationFn: deleteAccount,
+    onSuccess: async () =>
+      await queryClient.invalidateQueries({
+        queryKey: ['accounts'],
+        refetchType: 'all',
+      }),
+  })
+
   const handleUpdateAccount: SubmitHandler<AccountFormProps> = async (data) => {
-    const accountResponse = await mutateAsync({ ...data, id: id.toString() })
+    const accountResponse = await mutateUpdateAccount({ ...data, id: id.toString() })
     if (isError) {
       toast({
         variant: 'destructive',
@@ -45,12 +59,27 @@ const AccountCard = ({ id, name, taxServicePassword, taxServiceUser, createdAt }
     } else {
       toast({
         variant: 'success',
-        title: `Cuenta "${accountResponse.name}" creada!`,
+        title: `Cuenta "${accountResponse.name}" actualizada!`,
       })
       setIsModalOpen(false)
     }
   }
 
+  const handleDeleteAccount = async () => {
+    const accountResponse = await mutateDeleteAccount(id.toString())
+    if (isError) {
+      toast({
+        variant: 'destructive',
+        title: `Problem with the deletion`,
+      })
+    } else {
+      toast({
+        variant: 'success',
+        title: `Cuenta "${accountResponse.name}" eliminada!`,
+      })
+      setIsModalOpen(false)
+    }
+  }
   return (
     <section className="balansaas-gradient relative min-h-28 min-w-80 flex-1 rounded-md p-5 shadow-md">
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}></Dialog>
@@ -94,9 +123,12 @@ const AccountCard = ({ id, name, taxServicePassword, taxServiceUser, createdAt }
             </DialogContent>
           </Dialog>
           <div className="my-4 h-[1px] w-full shrink-0 bg-border"></div>
-          <div className="flex justify-between px-4 py-1.5 text-red-700 hover:bg-red-50">
+          <button
+            className="flex w-full justify-between px-4 py-1.5 text-red-700 hover:bg-red-50"
+            onClick={handleDeleteAccount}
+          >
             Eliminar <Trash2 />
-          </div>
+          </button>
         </PopoverContent>
       </Popover>
       <div className="mb-1 block" data-testid="header">
