@@ -43,7 +43,7 @@ const Login = () => {
 
   return (
     <div className="relative grid min-h-svh min-w-full place-items-center">
-      <main className="w-96 rounded-md border-[2px] border-slate-700 px-6 py-6">
+      <main className="w-96 rounded-md border-2 border-slate-700 px-6 py-6">
         <article className="mb-3 grid place-items-center">
           <div className="max-w-64">
             <Logo />
