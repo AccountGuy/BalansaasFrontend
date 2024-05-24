@@ -3,6 +3,7 @@ import { getSelectAccount } from '@/handlers/accountsHandler'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import useActionCableHook from '@/hooks/useActioncableHook'
+import NotificationMessage from '@/custom_components/NotificationMessage'
 
 const F29Layout = () => {
   const [notifications, setNotifications] = useState<any>([])
@@ -12,12 +13,10 @@ const F29Layout = () => {
   })
 
   const handleReceivedMessage = (message: any) => {
-    console.log('Message', message)
     setNotifications([...notifications, message])
   }
 
   useActionCableHook('NotificationChannel', handleReceivedMessage)
-  console.log(notifications)
 
   return (
     <main className="flex flex-row flex-wrap gap-5">
@@ -27,9 +26,9 @@ const F29Layout = () => {
         {isLoading ? 'Loading' : <Form29 accounts={data!} />}
       </article>
       <article className="flex-1" data-testid="previewData">
-        <section>
+        <section className="flex flex-col gap-2">
           {notifications.map((notification: any) => (
-            <div>{notification.message}</div>
+            <NotificationMessage kind={notification.kind} message={notification.message} />
           ))}
         </section>
       </article>
