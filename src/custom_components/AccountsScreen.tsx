@@ -40,7 +40,7 @@ const AccountsScreen = () => {
         <div>Añadir cuenta nueva</div>
       ) : (
         <article
-          className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-6 py-4"
+          className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6 py-4"
           data-testid="cards-section"
         >
           {accounts.map((account) => (

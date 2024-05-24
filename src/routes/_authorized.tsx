@@ -15,11 +15,13 @@ function AuthLayout() {
   })
 
   return (
-    <>
+    <div className="flex h-full w-full overflow-hidden">
       <Sidebar />
-      <main className="flex-1 px-6 py-4">
-        <Outlet />
-      </main>
-    </>
+      <div role="presentation" className="relative flex h-full w-full max-w-full overflow-auto">
+        <main className="overflow relative h-full w-full flex-1 flex-col px-6 py-4">
+          <Outlet />
+        </main>
+      </div>
+    </div>
   )
 }
