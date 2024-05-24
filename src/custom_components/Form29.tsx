@@ -38,51 +38,54 @@ const Form29 = ({ accounts }: Form29Props) => {
   }
 
   return (
-    <article className="min-w-80 max-w-96">
-      <form onSubmit={handleSubmitAction}>
-        <section className="form-field">
-          <label className="label-field">Selecciona la cuenta</label>
-          <Select onValueChange={(account) => setSelectedAccount(Number(account))}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Selecciona la cuenta" />
-            </SelectTrigger>
-            <SelectContent>
-              {accounts.map(({ id, name }) => (
-                <SelectItem key={id.toString()} value={id.toString()}>
-                  {name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </section>
-        <section className="form-field">
-          <label className="label-field">Año de formulario</label>
-          <Select onValueChange={(year) => setSelectedYear(Number(year))}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Selecciona el año" />
-            </SelectTrigger>
-            <SelectContent>
-              {years.map((year) => (
-                <SelectItem key={year.toString()} value={year.toString()}>
-                  {year}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </section>
-        <section className="flex flex-col gap-2">
-          <div>
-            <button className="btn w-full" disabled={isPending}>
-              Generar Excel SII
-            </button>
-          </div>
-          <div>
-            <button className="btn w-full disabled:bg-red-300" disabled>
-              Generar PDFs (Siguiente version)
-            </button>
-          </div>
-        </section>
-      </form>
+    <article className="flex w-full items-center justify-center">
+      <div className="mt-4 w-4/5 rounded border border-gray-300 px-10 py-8">
+        <form onSubmit={handleSubmitAction}>
+          <h1 className="mb-3 text-2xl">Completa el formulario</h1>
+          <section className="form-field">
+            <label className="label-field">Selecciona la cuenta</label>
+            <Select onValueChange={(account) => setSelectedAccount(Number(account))}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Selecciona la cuenta" />
+              </SelectTrigger>
+              <SelectContent>
+                {accounts.map(({ id, name }) => (
+                  <SelectItem key={id.toString()} value={id.toString()}>
+                    {name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </section>
+          <section className="form-field">
+            <label className="label-field">Año de formulario</label>
+            <Select onValueChange={(year) => setSelectedYear(Number(year))}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Selecciona el año" />
+              </SelectTrigger>
+              <SelectContent>
+                {years.map((year) => (
+                  <SelectItem key={year.toString()} value={year.toString()}>
+                    {year}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </section>
+          <section className="flex flex-col gap-2">
+            <div>
+              <button className="btn w-full" disabled={isPending}>
+                Generar Excel SII
+              </button>
+            </div>
+            <div>
+              <button className="btn w-full disabled:bg-red-300" disabled>
+                Generar PDFs (Siguiente version)
+              </button>
+            </div>
+          </section>
+        </form>
+      </div>
     </article>
   )
 }
