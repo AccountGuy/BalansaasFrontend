@@ -20,6 +20,12 @@
   box-sizing: border-box;
 }
 
+body,
+html,
+#root {
+  height: 100%;
+}
+
 @layer components {
   .btn {
     @apply flex items-center justify-center gap-1 rounded-md border-2 border-transparent bg-slate-800 px-5 py-2.5 text-center text-white ring-gray-200 ring-offset-2 transition duration-200 hover:bg-gray-800 focus-visible:ring-2;
@@ -34,7 +40,7 @@
   }
 
   .input-field {
-    @apply focus:ring-main-900 block w-full rounded-md border border-gray-300 bg-gray-50 p-2.5 text-sm text-slate-800 focus:border-transparent focus:ring-2;
+    @apply block w-full rounded-md border border-gray-300 bg-gray-50 p-2.5 text-sm text-slate-800 focus:border-transparent focus:ring-2 focus:ring-main-900;
   }
 
   .label-field {
@@ -44,7 +50,11 @@
 
 @layer base {
   h1 {
-    @apply text-3xl font-bold text-gray-800;
+    @apply text-3xl font-bold bg-gradient-to-r from-main-950 to-main-700 inline-block text-transparent bg-clip-text;
+  }
+
+  button {
+    @apply focus-visible:outline-none
   }
 
   .title-spacing {
@@ -54,7 +64,7 @@
 
 @layer utilities {
   .balansaas-gradient {
-    @apply from-main-50 to-main-100 bg-gradient-to-br;
+    @apply bg-gradient-to-br from-main-50 to-main-100;
   }
 }
 
@@ -120,4 +130,32 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
   }
+}
+
+/* Scrollbar customization */
+
+/* For WebKit browsers (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+  height: 12px; /* Height of the scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent; /* Background of the scrollbar track */
+  border-radius: 10px; /* Rounded corners of the scrollbar track */
+}
+
+*::-webkit-scrollbar-thumb {
+  --color: #e2e8f0;
+  background-color: var(--color); /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners of the scrollbar thumb */
+  border: 3px solid var(--color); /* Padding around the scrollbar thumb */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #b3b3b3; /* Darker color on hover */
+}
+
+*::-webkit-scrollbar-corner {
+  background: #f5f5f5; /* Background color of the bottom corner */
 }

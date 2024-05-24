@@ -7,15 +7,23 @@ import {
 } from '@/components/ui/dialog'
 import { toast } from '@/components/ui/use-toast'
 import { createAccount } from '@/handlers/accountsHandler'
-import { AccountFormProps } from '@/schemas/forms'
+import { AccountFormProps, AccountSchema } from '@/schemas/forms'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 const AccountsHeader = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { register, handleSubmit } = useForm<AccountFormProps>()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AccountFormProps>({
+    resolver: zodResolver(AccountSchema),
+  })
+
   const queryClient = useQueryClient()
   const { mutateAsync, isPending, isError } = useMutation({
     mutationFn: createAccount,
@@ -46,7 +54,7 @@ const AccountsHeader = () => {
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <header className="title-spacing flex items-end">
         <div className="flex-1">
-          <h1>Cuentas SII Registradas</h1>
+          <h1>Cuentas SII</h1>
         </div>
         <div>
           <DialogTrigger className="btn-option font-semibold">
@@ -70,6 +78,7 @@ const AccountsHeader = () => {
             <div className="form-field">
               <label className="label-field">Usuario SII</label>
               <input {...register('tax_service_user')} className="input-field" />
+              <div className="text-sm text-red-500">{errors.tax_service_user?.message}</div>
             </div>
             <div className="form-field">
               <label className="label-field">Contraseña SII</label>

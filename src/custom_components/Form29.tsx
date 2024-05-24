@@ -12,6 +12,8 @@ import { getDateRanges } from '@/lib/date_utils'
 import { postForSiiFormRecords } from '@/handlers/siiFormRecordHandler'
 import { useMutation } from '@tanstack/react-query'
 
+const goServiceUrl: string = import.meta.env.VITE_GO_SERVICE_URL
+
 interface Form29Props {
   accounts: AccountSelect[]
 }
@@ -34,6 +36,19 @@ const Form29 = ({ accounts }: Form29Props) => {
     })
     if (!isError && !isPending) {
       await excelGeneration(f29Data)
+      // const response = await fetch(`${goServiceUrl}/f29_excel_generation`, {
+      //   method: 'POST',
+      //   body: JSON.stringify(f29Data),
+      // })
+      // const blob = await response.blob()
+      // const url = window.URL.createObjectURL(blob)
+      // const a = document.createElement('a')
+      // a.href = url
+      // a.download = 'balansaas_excel.xlsx'
+      // document.body.appendChild(a)
+      // a.click()
+      // document.body.removeChild(a)
+      // window.URL.revokeObjectURL(url)
     }
   }
 
