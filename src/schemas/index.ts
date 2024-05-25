@@ -32,3 +32,25 @@ export interface AccountSelect {
   id: number
   name: string
 }
+
+type ReleaseNoteKind =
+  | 'newFeature'
+  | 'bugFix'
+  | 'uiUxImprovement'
+  | 'performanceImprovement'
+  | 'contentUpdates'
+  | 'securityEnhancement'
+
+export interface ReleaseNote {
+  id: number
+  description: string
+  kind: ReleaseNoteKind
+}
+
+export interface Release {
+  aliasVersion: number
+  id: string
+  compositeVersion: string
+  createdAt: string
+  releaseNotes: ReleaseNote[]
+}
