@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react'
-import { excelGeneration } from '@/services/generate_excel'
+// import { excelGeneration } from '@/services/generate_excel'
 import {
   Select,
   SelectContent,
@@ -11,8 +11,7 @@ import type { AccountSelect } from '@/schemas'
 import { getDateRanges } from '@/lib/date_utils'
 import { postForSiiFormRecords } from '@/handlers/siiFormRecordHandler'
 import { useMutation } from '@tanstack/react-query'
-
-const goServiceUrl: string = import.meta.env.VITE_GO_SERVICE_URL
+import { F29ExcelGenerationHandler } from '@/handlers/serviceHandler'
 
 interface Form29Props {
   accounts: AccountSelect[]
@@ -23,7 +22,6 @@ const years = getDateRanges().reverse()
 const Form29 = ({ accounts }: Form29Props) => {
   const [selectedAccount, setSelectedAccount] = useState<number>()
   const [selectedYear, setSelectedYear] = useState<number>()
-  // const { register, handleSubmit } = useForm<SiiFormRecordProps>();
   const { mutateAsync, isPending, isError } = useMutation({
     mutationFn: postForSiiFormRecords,
   })
@@ -35,20 +33,17 @@ const Form29 = ({ accounts }: Form29Props) => {
       year: selectedYear as number,
     })
     if (!isError && !isPending) {
-      await excelGeneration(f29Data)
-      // const response = await fetch(`${goServiceUrl}/f29_excel_generation`, {
-      //   method: 'POST',
-      //   body: JSON.stringify(f29Data),
-      // })
-      // const blob = await response.blob()
-      // const url = window.URL.createObjectURL(blob)
-      // const a = document.createElement('a')
-      // a.href = url
-      // a.download = 'balansaas_excel.xlsx'
-      // document.body.appendChild(a)
-      // a.click()
-      // document.body.removeChild(a)
-      // window.URL.revokeObjectURL(url)
+      // await excelGeneration(f29Data) //! Remove this after
+      const excelResponse = await F29ExcelGenerationHandler(f29Data)
+      const blob = await excelResponse.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'balansaas_excel.xlsx'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      window.URL.revokeObjectURL(url)
     }
   }
 
