@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { createConsumer } from '@rails/actioncable';
 import { useLoginStore } from '@/stores/authStore';
-
-const WS_API_BASE_URL = 'ws://localhost:3000/cable'
+import { config } from '@/config';
 
 const useActionCableHook = (channelName: string, receivedCallback: (message: any) => any) => {
   const cableRef = useRef<any | null>(null);
@@ -11,7 +10,7 @@ const useActionCableHook = (channelName: string, receivedCallback: (message: any
 
   useEffect(() => {
     // Create the consumer (WebSocket connection)
-    cableRef.current = createConsumer(`${WS_API_BASE_URL}?token=${token}`);
+    cableRef.current = createConsumer(`${config.wsBaseUrl}?token=${token}`);
 
     // Create the subscription to the specified channel
     channelRef.current = cableRef.current.subscriptions.create(
