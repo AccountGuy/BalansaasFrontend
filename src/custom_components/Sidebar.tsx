@@ -1,8 +1,8 @@
 import { Link, useNavigate, useRouterState } from '@tanstack/react-router'
 import Logo from './Logo'
 import SidebarLink from './SidebarLink'
-import { Home, BookUser, LogOut, Cog } from 'lucide-react'
-import F29Book from '@/components/icons/F29Book'
+import { Home, BookUser, LogOut, Cog, Ticket } from 'lucide-react'
+import { F29Book } from '@/components/icons'
 import { localStorageKey } from '@/stores/authStore'
 import { toast } from '@/components/ui/use-toast'
 
@@ -42,9 +42,10 @@ const Sidebar = () => {
         </section>
       </article>
       <article>
-        <Link to="/settings">
-          <SidebarLink isActive={false} label="Configuración" icon={<Cog />} />
+        <Link to="/support">
+          <SidebarLink isActive={pathname === '/support'} label="Soporte" icon={<Ticket />} />
         </Link>
+        <SidebarLink isActive={false} label="Configuración" icon={<Cog />} />
         <section onClick={handleLogout} className="cursor-pointer">
           <SidebarLink isActive={false} label="Cerrar Sesión" icon={<LogOut />} />
         </section>
