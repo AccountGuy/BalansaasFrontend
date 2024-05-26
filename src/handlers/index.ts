@@ -22,5 +22,7 @@ export const apiRequest = axios.create({
 });
 
 export const serviceRequest = axios.create({
-  baseURL: config.goServiceUrl
+  baseURL: config.goServiceUrl,
+  headers: {'Content-Type': 'application/json'},
+  responseType: 'blob'
 })
