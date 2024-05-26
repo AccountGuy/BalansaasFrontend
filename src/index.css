@@ -57,7 +57,7 @@ html,
   }
 
   h2 {
-    @apply text-xl font-bold bg-gradient-to-r from-main-950 to-main-700 inline-block text-transparent bg-clip-text;
+    @apply inline-block bg-gradient-to-r from-main-950 to-main-700 bg-clip-text text-xl font-bold text-transparent;
   }
 
   button {
@@ -69,7 +69,7 @@ html,
   }
 
   .text-gradient {
-    @apply font-bold bg-gradient-to-r from-main-950 to-main-700 inline-block text-transparent bg-clip-text;
+    @apply inline-block bg-gradient-to-r from-main-950 to-main-700 bg-clip-text font-bold text-transparent;
   }
 }
 

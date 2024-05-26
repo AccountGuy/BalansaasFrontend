@@ -8,20 +8,17 @@ import path from 'path'
 
 export default ({ mode }: any) => {
   // Load app-level env vars to node-level env vars.
-  process.env = {...process.env, ...loadEnv(mode, process.cwd())};
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
 
   return defineConfig({
-        server: {
-      port: Number(process.env.VITE_PORT) || 3001
+    server: {
+      port: Number(process.env.VITE_PORT) || 3001,
     },
-    plugins: [
-      react(),
-      TanStackRouterVite(),
-    ],
+    plugins: [react(), TanStackRouterVite()],
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "./src"),
+        '@': path.resolve(__dirname, './src'),
       },
-  },
-  });
+    },
+  })
 }

@@ -1,6 +1,6 @@
-import type { LoginData, UserData } from "@/schemas"
-import { apiRequest } from "."
-import { isAxiosError } from "axios"
+import type { LoginData, UserData } from '@/schemas'
+import { apiRequest } from '.'
+import { isAxiosError } from 'axios'
 
 export const sessionLoginHandler = async (loginData: LoginData): Promise<UserData | undefined> => {
   try {
