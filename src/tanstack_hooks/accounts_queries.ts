@@ -1,5 +1,5 @@
-import { deleteAccount, updateAccount } from "@/handlers/accountsHandler"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { deleteAccount, updateAccount } from '@/handlers/accountsHandler'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export const useUpdateAccountMutation = () => {
   const queryClient = useQueryClient()
@@ -10,7 +10,7 @@ export const useUpdateAccountMutation = () => {
         queryKey: ['accounts'],
         refetchType: 'all',
       }),
-  }) 
+  })
 }
 
 export const useDeleteAccountMutation = () => {

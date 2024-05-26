@@ -1,7 +1,7 @@
-import axios from "axios";
-import type { UserData } from "../schemas";
-import { localStorageKey } from "../stores/authStore";
-import { config } from "@/config";
+import axios from 'axios'
+import type { UserData } from '../schemas'
+import { localStorageKey } from '../stores/authStore'
+import { config } from '@/config'
 
 const apiBaseUrl: string = import.meta.env.VITE_API_BACKEND_URL
 
@@ -18,11 +18,11 @@ export const obtainAuthorization = () => {
 export const apiRequest = axios.create({
   baseURL: apiBaseUrl,
   timeout: 100 * 1000, // 100 seconds
-  headers: {'Content-Type': 'application/json'},
-});
+  headers: { 'Content-Type': 'application/json' },
+})
 
 export const serviceRequest = axios.create({
   baseURL: config.goServiceUrl,
-  headers: {'Content-Type': 'application/json'},
-  responseType: 'blob'
+  headers: { 'Content-Type': 'application/json' },
+  responseType: 'blob',
 })
