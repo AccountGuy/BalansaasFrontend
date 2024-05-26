@@ -35,7 +35,9 @@ const Form29 = ({ accounts }: Form29Props) => {
     if (!isError && !isPending) {
       // await excelGeneration(f29Data) //! Remove this after
       const excelResponse = await F29ExcelGenerationHandler(f29Data)
-	  const blob = new Blob([excelResponse], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const blob = new Blob([excelResponse], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      })
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
@@ -48,8 +50,8 @@ const Form29 = ({ accounts }: Form29Props) => {
   }
 
   return (
-    <article className="flex w-full items-center justify-center">
-      <div className="mt-4 w-4/5 rounded border border-gray-300 px-10 py-8">
+    <article className="flex w-full min-w-[360px] max-w-[500px] items-center">
+      <div className="mt-4 w-full rounded border border-gray-300 px-10 py-10">
         <form onSubmit={handleSubmitAction}>
           <h1 className="mb-3 text-2xl">Completa el formulario</h1>
           <section className="form-field">
