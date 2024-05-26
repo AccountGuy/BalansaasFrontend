@@ -35,7 +35,7 @@ const Form29 = ({ accounts }: Form29Props) => {
     if (!isError && !isPending) {
       // await excelGeneration(f29Data) //! Remove this after
       const excelResponse = await F29ExcelGenerationHandler(f29Data)
-      const blob = await excelResponse.blob()
+	  const blob = new Blob([excelResponse], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
