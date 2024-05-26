@@ -1,42 +1,34 @@
-import { getAllReleases } from "@/handlers/releasesHandler";
-import { useQuery } from "@tanstack/react-query";
+import { getAllReleases } from '@/handlers/releasesHandler'
+import SupportSubBox from './SupportSubBox'
+import { useQuery } from '@tanstack/react-query'
+import type { ReleaseNote } from '@/schemas'
 
 const SupportBottomBox = () => {
-	const { data, isLoading, isError } = useQuery({
-		queryFn: getAllReleases,
-		queryKey: ["releases"],
-	});
-	if (data === undefined) return <div>Loading...</div>
-	return (
-		data.map(release => (
-		<section className="flex flex-col min-h-52 w-full p-2.5 rounded-md p-5 shadow-custom divide-y">
-		<div className="justify-between px-5 py-3 flex items-end h-14">
-		
-		<div className="text-2xl font-semibold text-main-800 flex align-center items-center">
-		Versión {release.compositeVersion}
-		</div>
-		<div className="text-xl font-semibold text-main-800 flex align-center items-center">
-		{release.createdAt}
-		</div>
-		</div>
-		<span>
-		{release.releaseNotes.map(releaseNote => (
-		<section className="relative flex min-h-52 w-full rounded-md p-5">
-		<span className="block">
-		{releaseNote.id}
-		</span>
-		<span className="block">
-		{releaseNote.description}
-		</span>
-		<span className="block">
-		{releaseNote.kind}
-		</span>
-		</section>
-		))}
-		</span>
-		</section>
-		))
-	)
+  const { data, isLoading, isError } = useQuery({
+    queryFn: getAllReleases,
+    queryKey: ['releases'],
+  })
+  if (data === undefined) return <div>Loading...</div>
+  return data.map(({ createdAt, compositeVersion, releaseNotes }) => (
+    <div
+      key={compositeVersion}
+      className="flex min-h-52 w-full flex-col divide-y rounded-md p-5 shadow-custom"
+    >
+      <section>
+        <div className="flex h-14 items-end justify-between px-5 py-3">
+          <div className="align-center flex items-center text-2xl font-semibold text-main-800">
+            Versión {compositeVersion}
+          </div>
+          <div className="align-center flex items-center text-xl font-semibold text-main-800">
+            {createdAt}
+          </div>
+        </div>
+      </section>
+      <section className="px-5 py-2">
+        <SupportSubBox releaseNotes={releaseNotes} />
+      </section>
+    </div>
+  ))
 }
 
 export default SupportBottomBox

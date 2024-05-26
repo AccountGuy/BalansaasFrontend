@@ -10,7 +10,9 @@ const SupportLayout = () => {
       </article>
       <article className="w-full">
         <h1 className="mb-6">Notas de las versiones</h1>
-        <SupportBottomBox />
+        <div className="flex flex-col gap-y-16">
+          <SupportBottomBox />
+        </div>
       </article>
       <article className="flex-1" data-testid="previewData"></article>
     </main>
