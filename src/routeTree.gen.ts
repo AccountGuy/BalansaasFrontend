@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as AuthorizedImport } from './routes/_authorized'
 import { Route as IndexImport } from './routes/index'
+import { Route as AuthorizedSupportImport } from './routes/_authorized/support'
 import { Route as AuthorizedSettingsImport } from './routes/_authorized/settings'
 import { Route as AuthorizedLandingImport } from './routes/_authorized/landing'
 import { Route as AuthorizedForm29Import } from './routes/_authorized/form-29'
@@ -34,6 +35,11 @@ const AuthorizedRoute = AuthorizedImport.update({
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AuthorizedSupportRoute = AuthorizedSupportImport.update({
+  path: '/support',
+  getParentRoute: () => AuthorizedRoute,
 } as any)
 
 const AuthorizedSettingsRoute = AuthorizedSettingsImport.update({
@@ -88,6 +94,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthorizedSettingsImport
       parentRoute: typeof AuthorizedImport
     }
+    '/_authorized/support': {
+      preLoaderRoute: typeof AuthorizedSupportImport
+      parentRoute: typeof AuthorizedImport
+    }
   }
 }
 
@@ -100,6 +110,7 @@ export const routeTree = rootRoute.addChildren([
     AuthorizedForm29Route,
     AuthorizedLandingRoute,
     AuthorizedSettingsRoute,
+    AuthorizedSupportRoute,
   ]),
   LoginRoute,
 ])
