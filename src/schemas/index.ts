@@ -1,3 +1,5 @@
+import type { ReactElement } from 'react'
+
 export interface LoginData {
   email: string
   password: string
@@ -31,4 +33,31 @@ export interface Account {
 export interface AccountSelect {
   id: number
   name: string
+}
+
+export interface WebSocketNotification {
+  message: string | ReactElement
+  kind: 'error' | 'info' | 'success' | 'none'
+}
+
+type ReleaseNoteKind =
+  | 'newFeature'
+  | 'bugFix'
+  | 'uiUxImprovement'
+  | 'performanceImprovement'
+  | 'contentUpdates'
+  | 'securityEnhancement'
+
+export interface ReleaseNote {
+  id: number
+  description: string
+  kind: ReleaseNoteKind
+}
+
+export interface Release {
+  aliasVersion: number
+  id: string
+  compositeVersion: string
+  createdAt: string
+  releaseNotes: ReleaseNote[]
 }

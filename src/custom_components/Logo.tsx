@@ -2,7 +2,7 @@ const Logo = () => {
   return (
     <div className="max-w-40">
       <svg
-        className="w-full h-auto"
+        className="h-auto w-full"
         viewBox="0 0 120 46"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +30,7 @@ const Logo = () => {
         </defs>
       </svg>
     </div>
-  );
-};
+  )
+}
 
-export default Logo;
+export default Logo

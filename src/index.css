@@ -20,35 +20,62 @@
   box-sizing: border-box;
 }
 
+body,
+html,
+#root {
+  height: 100%;
+}
+
 @layer components {
   .btn {
-    @apply flex gap-1 items-center justify-center rounded-md text-center focus-visible:ring-2 ring-offset-2 ring-gray-200 px-5 py-2.5 bg-slate-800 text-white hover:bg-gray-800 border-2 border-transparent duration-200 transition;
+    @apply flex items-center justify-center gap-1 rounded-md border-2 border-transparent bg-slate-800 px-5 py-2.5 text-center text-white ring-gray-200 ring-offset-2 transition duration-200 hover:bg-gray-800 focus-visible:ring-2;
   }
 
+  .btn-big {
+    @apply flex items-center justify-center gap-5 rounded-md border-2 border-transparent bg-slate-800 px-8 py-4 text-center text-2xl font-semibold text-white ring-gray-200 ring-offset-2 transition duration-200 hover:bg-gray-800 focus-visible:ring-2;
+  }
   .btn-option {
-    @apply flex items-center justify-center rounded-sm text-white text-center text-sm focus-visible:ring-2 ring-offset-2 ring-gray-200 px-3 py-1.5 bg-slate-700 hover:bg-slate-600 shadow-md border border-transparent duration-200 transition;
+    @apply flex items-center justify-center rounded-sm border border-transparent bg-slate-700 px-3 py-1.5 text-center text-sm text-white shadow-md ring-gray-200 ring-offset-2 transition duration-200 hover:bg-slate-600 focus-visible:ring-2;
   }
 
   .form-field {
-    @apply flex flex-col mb-4;
+    @apply mb-4 flex flex-col;
   }
 
   .input-field {
-    @apply block w-full p-2.5 bg-gray-50 border border-gray-300 text-slate-800 text-sm rounded-md focus:outline-slate-700;
+    @apply block w-full rounded-md border border-gray-300 bg-gray-50 p-2.5 text-sm text-slate-800 focus:border-transparent focus:ring-2 focus:ring-main-900;
   }
 
   .label-field {
-    @apply block mb-1.5 pl-0.5 text-sm font-medium text-slate-800;
+    @apply mb-1.5 block pl-0.5 text-sm font-medium text-slate-800;
   }
 }
 
 @layer base {
   h1 {
-    @apply text-3xl font-bold text-gray-800;
+    @apply inline-block bg-gradient-to-r from-main-950 to-main-700 bg-clip-text text-3xl font-bold text-transparent;
+  }
+
+  h2 {
+    @apply inline-block bg-gradient-to-r from-main-950 to-main-700 bg-clip-text text-xl font-bold text-transparent;
+  }
+
+  button {
+    @apply focus-visible:outline-none;
   }
 
   .title-spacing {
-    @apply mb-3
+    @apply mb-3;
+  }
+
+  .text-gradient {
+    @apply inline-block bg-gradient-to-r from-main-950 to-main-700 bg-clip-text font-bold text-transparent;
+  }
+}
+
+@layer utilities {
+  .balansaas-gradient {
+    @apply bg-gradient-to-br from-main-50 to-main-100;
   }
 }
 
@@ -116,8 +143,30 @@
   }
 }
 
-@layer utilities {
-  .balansaas-gradient {
-    @apply bg-gradient-to-br from-slate-100 to-slate-300
-  }
+/* Scrollbar customization */
+
+/* For WebKit browsers (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+  height: 12px; /* Height of the scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent; /* Background of the scrollbar track */
+  border-radius: 10px; /* Rounded corners of the scrollbar track */
+}
+
+*::-webkit-scrollbar-thumb {
+  --color: #e2e8f0;
+  background-color: var(--color); /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners of the scrollbar thumb */
+  border: 3px solid var(--color); /* Padding around the scrollbar thumb */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #b3b3b3; /* Darker color on hover */
+}
+
+*::-webkit-scrollbar-corner {
+  background: #f5f5f5; /* Background color of the bottom corner */
 }

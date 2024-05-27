@@ -8,16 +8,19 @@ export interface AuthProps extends UserData {
 
 export const localStorageKey = 'balansaas.auth'
 
-export const useLoginStore = create<AuthProps>()(persist(
-  (set, _get) => ({
-    email: null,
-    token: null,
-    name: null,
-    setUserData: (userData: UserData) => { set({...userData}) }
-  }),
-  {
-    name: localStorageKey,
-    storage: createJSONStorage(() => localStorage)
-  }
-))
-
+export const useLoginStore = create<AuthProps>()(
+  persist(
+    (set, _get) => ({
+      email: null,
+      token: null,
+      name: null,
+      setUserData: (userData: UserData) => {
+        set({ ...userData })
+      },
+    }),
+    {
+      name: localStorageKey,
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+)

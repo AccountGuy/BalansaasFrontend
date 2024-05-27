@@ -1,16 +1,22 @@
+import type { ReactElement } from 'react'
+
 interface SidebarLinkProps {
-  children: string;
-  isActive: boolean;
+  label: string
+  isActive: boolean
+  icon: ReactElement
 }
 
-const SidebarLink = ({ isActive, children }: SidebarLinkProps) => {
+const SidebarLink = ({ isActive, label, icon }: SidebarLinkProps) => {
   return (
     <div
-      className={`py-1.5 px-4 ${isActive ? "font-bold border-r-4 border-cyan-900 text-cyan-900" : "text-slate-600 font-semibold"}`}
+      className={`px-4 py-3 ${isActive ? 'border-r-4 border-cyan-900 font-bold text-cyan-900' : 'font-semibold text-slate-600'}`}
     >
-      {children}
+      <div className="flex">
+        {icon}
+        <span className="ml-3">{label}</span>
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default SidebarLink;
+export default SidebarLink
