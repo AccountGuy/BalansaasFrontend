@@ -52,7 +52,7 @@ const AccountsHeader = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-      <header className="title-spacing flex items-end">
+      <header className="title-spacing flex items-start">
         <div className="flex-1">
           <h1>Cuentas SII</h1>
         </div>

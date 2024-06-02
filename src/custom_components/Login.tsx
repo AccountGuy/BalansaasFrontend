@@ -42,8 +42,8 @@ const Login = () => {
   }
 
   return (
-    <div className="relative grid min-h-svh min-w-full place-items-center">
-      <main className="w-96 rounded-md border-2 border-slate-700 px-6 py-6">
+    <div className="balansaas-gradient relative grid min-h-svh min-w-full place-items-center">
+      <main className="card-border w-[380px] rounded-md border-2 border-slate-700 bg-white/95 px-8 py-6">
         <article className="mb-3 grid place-items-center">
           <div className="max-w-64">
             <Logo />
