@@ -15,7 +15,7 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem(localStorageKey)
-    toast({ variant: 'default', title: 'Cierre de sessión exitoso' })
+    toast({ variant: 'default', title: 'Cierre de sesión exitoso' })
     navigate({ to: '/login' })
   }
 
