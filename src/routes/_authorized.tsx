@@ -18,7 +18,7 @@ function AuthLayout() {
     <div className="flex h-full w-full overflow-hidden">
       <Sidebar />
       <div role="presentation" className="relative flex h-full w-full max-w-full overflow-auto">
-        <main className="overflow relative h-full w-full flex-1 flex-col px-6 py-4">
+        <main className="main-container relative h-full w-full flex-1 flex-col">
           <Outlet />
         </main>
       </div>

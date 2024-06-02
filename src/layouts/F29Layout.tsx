@@ -46,7 +46,9 @@ const F29Layout = () => {
   return (
     <main className="flex flex-row flex-wrap gap-12">
       <article className="flex flex-1 flex-col">
-        <h1 className="mb-4">Formulario 29</h1>
+        <div>
+          <h1 className="mb-4">Formulario 29</h1>
+        </div>
         {isError ?? 'Error during loading'}
         {isLoading ? 'Loading' : <Form29 accounts={data!} />}
       </article>

@@ -3,7 +3,7 @@ import SupportBottomBox from '@/custom_components/SupportBottomBox'
 
 const SupportLayout = () => {
   return (
-    <main className="flex flex-row flex-wrap gap-10 px-10 pt-8">
+    <main className="flex flex-row flex-wrap gap-10">
       <article className="w-full">
         <h1 className="mb-6">Soporte</h1>
         <SupportTopBox />

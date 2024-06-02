@@ -1,5 +1,4 @@
-import { FormEvent, useState } from 'react'
-// import { excelGeneration } from '@/services/generate_excel'
+import { useState, type FormEvent } from 'react'
 import {
   Select,
   SelectContent,
@@ -33,7 +32,6 @@ const Form29 = ({ accounts }: Form29Props) => {
       year: selectedYear as number,
     })
     if (!isError && !isPending) {
-      // await excelGeneration(f29Data) //! Remove this after
       const excelResponse = await F29ExcelGenerationHandler(f29Data)
       const blob = new Blob([excelResponse], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -41,7 +39,9 @@ const Form29 = ({ accounts }: Form29Props) => {
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = 'balansaas_excel.xlsx'
+      const selectedAccountName =
+        accounts.find(({ id }) => selectedAccount === id)?.name || 'Company'
+      a.download = `${selectedAccountName.trim()}_${selectedYear || 'Year'}.xlsx`
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
@@ -50,11 +50,11 @@ const Form29 = ({ accounts }: Form29Props) => {
   }
 
   return (
-    <article className="flex w-full min-w-[360px] max-w-[500px] items-center">
-      <div className="mt-4 w-full rounded border border-gray-300 px-10 py-10">
+    <article className="flex w-full min-w-[360px] items-center">
+      <div className="card-border mt-4 w-full rounded px-10 pb-10 pt-6">
         <form onSubmit={handleSubmitAction}>
-          <h1 className="mb-3 text-2xl">Completa el formulario</h1>
-          <section className="form-field">
+          <h1 className="mb-3 text-xl">Completa el formulario</h1>
+          <section className="form-field py-1">
             <label className="label-field">Selecciona la cuenta</label>
             <Select onValueChange={(account) => setSelectedAccount(Number(account))}>
               <SelectTrigger className="w-full">
@@ -88,11 +88,6 @@ const Form29 = ({ accounts }: Form29Props) => {
             <div>
               <button className="btn w-full" disabled={isPending}>
                 Generar Excel SII
-              </button>
-            </div>
-            <div>
-              <button className="btn w-full disabled:bg-red-300" disabled>
-                Generar PDFs (Siguiente version)
               </button>
             </div>
           </section>
