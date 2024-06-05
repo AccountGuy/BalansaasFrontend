@@ -1,5 +1,5 @@
-import SupportTopBox from '@/custom_components/SupportTopBox'
-import SupportBottomBox from '@/custom_components/SupportBottomBox'
+import SupportTopBox from '@/screens/support/SupportTopBox'
+import SupportBottomBox from './SupportBottomBox'
 
 const SupportLayout = () => {
   return (
