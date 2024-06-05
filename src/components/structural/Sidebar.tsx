@@ -1,5 +1,5 @@
 import { Link, useNavigate, useRouterState } from '@tanstack/react-router'
-import Logo from './Logo'
+import Logo from '@src/components/icons/Logo'
 import SidebarLink from './SidebarLink'
 import { Home, BookUser, LogOut, Cog, Ticket } from 'lucide-react'
 import { F29Book } from '@/components/icons'
@@ -20,7 +20,7 @@ const Sidebar = () => {
   }
 
   return (
-    <aside className="balansaas-gradient flex min-h-full min-w-64 flex-col rounded-e-2xl py-4 shadow-2xl">
+    <aside className="balansaas-gradient flex min-h-full min-w-72 flex-col rounded-e-2xl py-4 shadow-2xl">
       <article className="flex-1">
         <section className="grid place-items-center">
           <Logo />
