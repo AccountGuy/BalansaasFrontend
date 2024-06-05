@@ -1,5 +1,5 @@
 import { Link, useNavigate, useRouterState } from '@tanstack/react-router'
-import Logo from '@src/components/icons/Logo'
+import Logo from '@/components/icons/Logo'
 import SidebarLink from './SidebarLink'
 import { Home, BookUser, LogOut, Cog, Ticket } from 'lucide-react'
 import { F29Book } from '@/components/icons'

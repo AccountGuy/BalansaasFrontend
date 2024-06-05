@@ -1,6 +1,6 @@
 import { partialHide } from '@/lib/string_utils'
 import { Account } from '@/schemas'
-import RelativeTime from './RelativeTime'
+import RelativeTime from '@/components/structural/RelativeTime'
 
 const AccountCardContent = ({ name, taxServiceUser, taxServicePassword, createdAt }: Account) => {
   return (

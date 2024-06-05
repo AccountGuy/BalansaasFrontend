@@ -1,5 +1,5 @@
-import ChipKindVersion from '@/structural/ChipKindVersion'
 import type { ReleaseNote } from '@/schemas'
+import ChipKindVersion from './ChipKindVersion'
 
 const SupportSubBox = ({ releaseNotes }: { releaseNotes: ReleaseNote[] }) => {
   // @ts-ignore
