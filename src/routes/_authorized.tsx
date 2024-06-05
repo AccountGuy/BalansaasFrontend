@@ -1,4 +1,4 @@
-import Sidebar from '@/custom_components/Sidebar'
+import Sidebar from '@/components/structural/Sidebar'
 import { useLoginHook } from '@/hooks/loginHook'
 import { Outlet, createFileRoute, useNavigate } from '@tanstack/react-router'
 
