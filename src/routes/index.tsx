@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useLoginHook } from '@/hooks/loginHook'
-import Login from '@/custom_components/Login'
+import Login from '@/components/structural/Login'
 
 export const Route = createFileRoute('/')({
   component: IndexRoute,

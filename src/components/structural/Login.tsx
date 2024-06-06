@@ -1,11 +1,11 @@
 import { FormEvent, useRef } from 'react'
-import { useLoginStore } from '../stores/authStore'
-import Logo from './Logo'
+import { useLoginStore } from '@/stores/authStore'
+import Logo from '@/components/icons/Logo'
 import { useMutation } from '@tanstack/react-query'
-import { sessionLoginHandler } from '../handlers/sessionHandlers'
+import { sessionLoginHandler } from '@/handlers/sessionHandlers'
 import { useNavigate } from '@tanstack/react-router'
-import { Loader } from 'lucide-react'
 import { toast } from '@/components/ui/use-toast'
+import LoaderButtonContent from '@/components/loaders/LoaderButtonContent'
 
 const Login = () => {
   const emailRef = useRef<HTMLInputElement>(null)
@@ -71,8 +71,7 @@ const Login = () => {
             </section>
             <section className="form-field">
               <button className="btn w-full" disabled={isPending}>
-                {isPending ? 'Cargando ' : 'Ingresar'}
-                {isPending ? <Loader className="animate-spin" /> : ''}
+                {isPending ? <LoaderButtonContent /> : 'Ingresar'}
               </button>
             </section>
           </article>

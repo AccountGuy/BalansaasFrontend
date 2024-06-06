@@ -2,6 +2,7 @@ import type { ReleaseNote } from '@/schemas'
 import ChipKindVersion from './ChipKindVersion'
 
 const SupportSubBox = ({ releaseNotes }: { releaseNotes: ReleaseNote[] }) => {
+  // @ts-ignore
   const groupedReleases = Object.groupBy(releaseNotes, ({ kind }: { kind: string }) => kind)
   const obtainedKeys = Object.keys(groupedReleases).sort()
   return (

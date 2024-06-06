@@ -9,7 +9,7 @@ interface SidebarLinkProps {
 const SidebarLink = ({ isActive, label, icon }: SidebarLinkProps) => {
   return (
     <div
-      className={`px-4 py-3 ${isActive ? 'border-r-4 border-cyan-900 font-bold text-cyan-900' : 'font-semibold text-slate-600'}`}
+      className={`px-4 py-3 text-base font-semibold ${isActive ? 'border-r-4 border-main-700 text-main-700' : 'text-main-950'}`}
     >
       <div className="flex">
         {icon}
