@@ -1,12 +1,17 @@
 import { isAxiosError } from 'axios'
 import { serviceRequest } from '.'
-import { SiiF29YearData } from '@/schemas'
 
-export const F29ExcelGenerationHandler = async (
-  siiFormRecordsData: SiiF29YearData[]
+interface F29ExcelGenerationHandlerProps {
+  accountId: number
+  year: number
+}
+
+export const f29ExcelGenerationHandler = async (
+  { accountId, year }: F29ExcelGenerationHandlerProps
 ): Promise<any> => {
   try {
-    const excelResponse = await serviceRequest.post('f29_excel_generation', siiFormRecordsData)
+    const queryParameters = new URLSearchParams({account_id: accountId.toString(), year: year.toString()})
+    const excelResponse = await serviceRequest.get(`f29_excel_generation?${queryParameters.toString()}`)
     return excelResponse.data
   } catch (e) {
     if (isAxiosError(e)) {
