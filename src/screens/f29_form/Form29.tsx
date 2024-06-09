@@ -10,7 +10,7 @@ import type { AccountSelect } from '@/schemas'
 import { getDateRanges } from '@/lib/date_utils'
 import { postForSiiFormRecords } from '@/handlers/siiFormRecordHandler'
 import { useMutation } from '@tanstack/react-query'
-import { F29ExcelGenerationHandler } from '@/handlers/serviceHandler'
+import { f29ExcelGenerationHandler } from '@/handlers/serviceHandler'
 
 interface Form29Props {
   accounts: AccountSelect[]
@@ -27,12 +27,15 @@ const Form29 = ({ accounts }: Form29Props) => {
 
   const handleSubmitAction = async (e: FormEvent) => {
     e.preventDefault()
-    const f29Data = await mutateAsync({
+    await mutateAsync({
       account_id: selectedAccount as number,
       year: selectedYear as number,
     })
     if (!isError && !isPending) {
-      const excelResponse = await F29ExcelGenerationHandler(f29Data)
+      const excelResponse = await f29ExcelGenerationHandler({
+        accountId: selectedAccount as number,
+        year: selectedYear as number,
+      })
       const blob = new Blob([excelResponse], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       })
