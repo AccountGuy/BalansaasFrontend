@@ -1,23 +1,11 @@
 FROM node:20-alpine
 
-USER root
+WORKDIR /app
 
-RUN mkdir -p /BalansaasFrontend/node_modules && chown -R node:node /BalansaasFrontend
+COPY package.json package-lock.json .
 
-WORKDIR /BalansaasFrontend
+RUN npm install
 
-ENV PNPM_HOME="/root/.local/share/pnpm"
-ENV PATH="${PATH}:${PNPM_HOME}"
-RUN npm install --global pnpm
+COPY . .
 
-COPY --chown=node:node package.json package-lock.json ./
-
-RUN pnpm install
-
-COPY --chown=node:node . ./BalansaasFrontend
-
-USER node
-
-EXPOSE 5173
-
-CMD [ "pnpm", "run", "dev", "--host" ]
+EXPOSE 8080
