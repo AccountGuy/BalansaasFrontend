@@ -13,7 +13,5 @@ export const postForSiiFormRecords = async (
     siiFormRecordFormData,
     { headers: obtainAuthorization() }
   )) as { data: PostF29Response }
-  console.log('From Backend')
-  console.log(accountsData.data);
   return accountsData.data
 }
