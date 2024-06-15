@@ -17,11 +17,12 @@ const F29SummaryNotifications = ({ notifications }: F29SummaryNotificationsProps
   return (
     <>
       {notifications.length === 0 ? (
-        <NotificationMessage kind="info" message={defaultMessage} />
+        <NotificationMessage kind="none" message={defaultMessage} />
       ) : (
         <NotificationMessage
           kind={lastMessageInformation?.kind || 'info'}
           message={lastMessageInformation?.message || 'Descargando'}
+          progress={lastMessageInformation?.progress}
         />
       )}
     </>
