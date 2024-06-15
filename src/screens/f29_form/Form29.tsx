@@ -11,6 +11,8 @@ import { getDateRanges } from '@/lib/date_utils'
 import { postForSiiFormRecords } from '@/handlers/siiFormRecordHandler'
 import { useMutation } from '@tanstack/react-query'
 import { f29ExcelGenerationHandler } from '@/handlers/serviceHandler'
+import LoaderButtonContent from '@/components/loaders/LoaderButtonContent'
+import { downloadBuffer } from '@/lib/buffer_utils'
 
 interface Form29Props {
   accounts: AccountSelect[]
@@ -36,19 +38,9 @@ const Form29 = ({ accounts }: Form29Props) => {
         accountId: selectedAccount as number,
         year: selectedYear as number,
       })
-      const blob = new Blob([excelResponse], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      })
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      const selectedAccountName =
-        accounts.find(({ id }) => selectedAccount === id)?.name || 'Company'
-      a.download = `${selectedAccountName.trim()}_${selectedYear || 'Year'}.xlsx`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      window.URL.revokeObjectURL(url)
+      const accountName = accounts.find(({ id }) => selectedAccount === id)?.name || 'Company'
+      const fileName = `${accountName.trim()}_${selectedYear || 'Year'}`
+      downloadBuffer(excelResponse, fileName)
     }
   }
 
@@ -90,7 +82,11 @@ const Form29 = ({ accounts }: Form29Props) => {
           <section className="flex flex-col gap-2">
             <div>
               <button className="btn w-full" disabled={isPending}>
-                Generar Excel SII
+                {isPending ? (
+                  <LoaderButtonContent label="Descargando Formularios" />
+                ) : (
+                  'Generar Excel SII'
+                )}
               </button>
             </div>
           </section>
