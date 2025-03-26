@@ -6,7 +6,7 @@ export const Route = createFileRoute('/_authorized/landing')({
 
 function Index() {
   return (
-    <div className="p-2">
+    <div>
       <h1>Landing page</h1>
     </div>
   )

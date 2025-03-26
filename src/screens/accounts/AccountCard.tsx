@@ -28,7 +28,7 @@ const AccountCard = ({ id, name, taxServicePassword, taxServiceUser, createdAt }
   } = useForm<AccountFormProps>({
     defaultValues: {
       name,
-      tax_service_user: taxServicePassword,
+      tax_service_user: taxServiceUser,
       tax_service_password: taxServicePassword,
     },
     resolver: zodResolver(AccountSchema),
@@ -41,7 +41,7 @@ const AccountCard = ({ id, name, taxServicePassword, taxServiceUser, createdAt }
     if (isError) {
       toast({
         variant: 'destructive',
-        title: `Problem with the creation`,
+        title: 'No se pudo actualizar la cuenta',
       })
     } else {
       toast({
@@ -57,7 +57,7 @@ const AccountCard = ({ id, name, taxServicePassword, taxServiceUser, createdAt }
     if (isError) {
       toast({
         variant: 'destructive',
-        title: `Problem with the deletion`,
+        title: `No se pudo borrar la cuenta`,
       })
     } else {
       toast({

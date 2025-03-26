@@ -1,10 +1,9 @@
 import { getAllReleases } from '@/handlers/releasesHandler'
 import SupportSubBox from './SupportSubBox'
 import { useQuery } from '@tanstack/react-query'
-import type { ReleaseNote } from '@/schemas'
 
 const SupportBottomBox = () => {
-  const { data, isLoading, isError } = useQuery({
+  const { data } = useQuery({
     queryFn: getAllReleases,
     queryKey: ['releases'],
   })
@@ -12,7 +11,7 @@ const SupportBottomBox = () => {
   return data.map(({ createdAt, compositeVersion, releaseNotes }) => (
     <div
       key={compositeVersion}
-      className="flex min-h-52 w-full flex-col divide-y rounded-md p-5 shadow-custom"
+      className="card-border flex min-h-52 w-full flex-col divide-y rounded-md p-5"
     >
       <section>
         <div className="flex h-14 items-end justify-between px-5 py-3">

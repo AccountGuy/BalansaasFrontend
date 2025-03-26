@@ -38,6 +38,7 @@ export interface AccountSelect {
 export interface WebSocketNotification {
   message: string | ReactElement
   kind: 'error' | 'info' | 'success' | 'none'
+  progress?: number
 }
 
 type ReleaseNoteKind =

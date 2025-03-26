@@ -1,5 +1,4 @@
-import { FormEvent, useState } from 'react'
-// import { excelGeneration } from '@/services/generate_excel'
+import { useState, type FormEvent } from 'react'
 import {
   Select,
   SelectContent,
@@ -11,7 +10,9 @@ import type { AccountSelect } from '@/schemas'
 import { getDateRanges } from '@/lib/date_utils'
 import { postForSiiFormRecords } from '@/handlers/siiFormRecordHandler'
 import { useMutation } from '@tanstack/react-query'
-import { F29ExcelGenerationHandler } from '@/handlers/serviceHandler'
+import { f29ExcelGenerationHandler } from '@/handlers/serviceHandler'
+import LoaderButtonContent from '@/components/loaders/LoaderButtonContent'
+import { downloadBuffer } from '@/lib/buffer_utils'
 
 interface Form29Props {
   accounts: AccountSelect[]
@@ -28,33 +29,27 @@ const Form29 = ({ accounts }: Form29Props) => {
 
   const handleSubmitAction = async (e: FormEvent) => {
     e.preventDefault()
-    const f29Data = await mutateAsync({
+    await mutateAsync({
       account_id: selectedAccount as number,
       year: selectedYear as number,
     })
     if (!isError && !isPending) {
-      // await excelGeneration(f29Data) //! Remove this after
-      const excelResponse = await F29ExcelGenerationHandler(f29Data)
-      const blob = new Blob([excelResponse], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      const excelResponse = await f29ExcelGenerationHandler({
+        accountId: selectedAccount as number,
+        year: selectedYear as number,
       })
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = 'balansaas_excel.xlsx'
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      window.URL.revokeObjectURL(url)
+      const accountName = accounts.find(({ id }) => selectedAccount === id)?.name || 'Company'
+      const fileName = `${accountName.trim()}_${selectedYear || 'Year'}`
+      downloadBuffer(excelResponse, fileName)
     }
   }
 
   return (
-    <article className="flex w-full min-w-[360px] max-w-[500px] items-center">
-      <div className="mt-4 w-full rounded border border-gray-300 px-10 py-10">
+    <article className="flex w-full min-w-[360px] items-center">
+      <div className="card-border mt-4 w-full rounded px-10 pb-10 pt-6">
         <form onSubmit={handleSubmitAction}>
-          <h1 className="mb-3 text-2xl">Completa el formulario</h1>
-          <section className="form-field">
+          <h1 className="mb-3 text-xl">Completa el formulario</h1>
+          <section className="form-field py-1">
             <label className="label-field">Selecciona la cuenta</label>
             <Select onValueChange={(account) => setSelectedAccount(Number(account))}>
               <SelectTrigger className="w-full">
@@ -87,12 +82,11 @@ const Form29 = ({ accounts }: Form29Props) => {
           <section className="flex flex-col gap-2">
             <div>
               <button className="btn w-full" disabled={isPending}>
-                Generar Excel SII
-              </button>
-            </div>
-            <div>
-              <button className="btn w-full disabled:bg-red-300" disabled>
-                Generar PDFs (Siguiente version)
+                {isPending ? (
+                  <LoaderButtonContent label="Descargando Formularios" />
+                ) : (
+                  'Generar Excel SII'
+                )}
               </button>
             </div>
           </section>

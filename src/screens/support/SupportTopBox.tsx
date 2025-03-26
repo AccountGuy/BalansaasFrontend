@@ -1,11 +1,9 @@
-import { EllipsisVertical, SquarePen, Trash2 } from 'lucide-react'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { BoldLogo } from '@/components/icons'
 import { Ticket, ClipboardPlus } from 'lucide-react'
 
 const SupportTopBox = () => {
   return (
-    <section className="relative flex min-h-52 w-full divide-x rounded-md p-5 shadow-custom">
+    <section className="card-border relative flex min-h-52 w-full divide-x rounded-md p-5">
       <div className="flex-1 place-items-center">
         <article className="grid place-items-center gap-y-3 py-8">
           <div className="align-center flex items-center text-2xl font-semibold text-main-800">
