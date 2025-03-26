@@ -26,9 +26,11 @@ declare module '@tanstack/react-router' {
   }
 }
 
+const BASE_PATH = import.meta.env.MODE === 'production' ? 'BalansaasFrontend' : ''
+
 const App = () => {
   const useAuth = useLoginStore()
-  return <RouterProvider router={router} context={{ ...useAuth }} />
+  return <RouterProvider basepath={BASE_PATH} router={router} context={{ ...useAuth }} />
 }
 
 // Render the app
