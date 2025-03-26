@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+// @ts-ignore
 import { createConsumer } from '@rails/actioncable'
 import { useLoginStore } from '@/stores/authStore'
 import { config } from '@/config'
